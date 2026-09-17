@@ -1,0 +1,7 @@
+interface:
+  display_name: "Resume Opportunity Match"
+  short_description: "Evidence-first resume and opportunity analysis"
+  default_prompt: "Use $resume-opportunity-match to compare my resume with this opportunity and propose a targeted structure."
+
+policy:
+  allow_implicit_invocation: true

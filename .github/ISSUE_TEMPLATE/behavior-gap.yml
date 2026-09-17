@@ -1,0 +1,40 @@
+name: Behavior or contract gap
+description: Report a reproducible activation, output-contract, truthfulness, or fairness gap.
+title: "[Behavior]: "
+labels:
+  - behavior
+body:
+  - type: markdown
+    attributes:
+      value: Use synthetic or fully redacted material. Do not include real resumes, contact information, credentials, or other personal data.
+  - type: textarea
+    id: trigger-prompt
+    attributes:
+      label: Trigger prompt
+      description: Give the user request that should or should not invoke the skill.
+    validations:
+      required: true
+  - type: dropdown
+    id: activation
+    attributes:
+      label: Did the skill activate?
+      options:
+        - Yes
+        - No
+        - Unclear
+    validations:
+      required: true
+  - type: textarea
+    id: contract-gap
+    attributes:
+      label: Output or safety contract violated
+      description: Identify the expected contract and what the observed behavior did instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Synthetic reproduction
+      description: Provide the smallest synthetic or fully redacted materials and observed output needed to reproduce the gap.
+    validations:
+      required: true

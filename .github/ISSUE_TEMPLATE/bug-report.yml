@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a reproducible problem with the skill or repository tooling.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Use synthetic or fully redacted material. Do not include real resumes, contact information, credentials, or other personal data.
+  - type: input
+    id: host
+    attributes:
+      label: Host and version
+      description: Name the host and its relevant version or build.
+    validations:
+      required: true
+  - type: input
+    id: project-version
+    attributes:
+      label: Project version or commit
+      description: Provide the release version or commit hash.
+    validations:
+      required: true
+  - type: dropdown
+    id: input-type
+    attributes:
+      label: Input type
+      options:
+        - Pasted text
+        - PDF
+        - DOCX
+        - Image
+        - Mixed or other host-readable input
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Synthetic reproduction
+      description: Provide the smallest synthetic or fully redacted prompt and materials that reproduce the issue.
+    validations:
+      required: true
