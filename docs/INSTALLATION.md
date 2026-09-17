@@ -2,68 +2,35 @@
 
 [中文](INSTALLATION.zh-CN.md)
 
-The canonical, tested source is `skills/resume-opportunity-match/` in this repository. Codex is the only verified host. Other Agent Skills hosts have not been tested by this project.
+This guide is for Codex users. Codex is the only host this project has tested. You do not need to download the whole repository or run PowerShell commands for the recommended installation.
 
-Choose one active installation for a host so updates are unambiguous.
+## Install for your account (recommended)
 
-## Personal Codex skill directory
+1. Open a Codex conversation.
+2. Send this request:
 
-Copy the canonical skill into your personal Codex skills directory:
+   ```text
+   $skill-installer Install the skill from https://github.com/YLXOVO/resume-opportunity-match/tree/main/skills/resume-opportunity-match
+   ```
 
-```powershell
-Copy-Item -Recurse -Force .\skills\resume-opportunity-match "$env:USERPROFILE\.codex\skills\resume-opportunity-match"
-```
+3. Wait for the installer to confirm success. It installs the `resume-opportunity-match` skill into your personal Codex skills directory; you do not need to create or copy folders yourself.
+4. Start a new turn. Look for **Resume Opportunity Match** in Codex's Skills list, or type `$resume-opportunity-match` in a new prompt and check that Codex recognizes it. If it does not appear, restart Codex and check again before reinstalling.
 
-Restart or refresh the host if necessary. A copied installation is independent; repository updates do not update it automatically.
+To try it, provide a readable resume and a job description in a conversation and ask Codex to compare them. You can explicitly mention `$resume-opportunity-match`, or let Codex select the skill from your request.
 
-## Repository-local `.agents/skills`
+## Install for one repository only (optional)
 
-For a project-specific copy, run from this repository (or replace the source path with its canonical location):
+Use this option if the skill should be available only while working in a particular repository. Do not also keep a personal installation of the same skill active unless you intentionally want two copies: Codex does not merge same-named skills.
 
-```powershell
-New-Item -ItemType Directory -Force .\.agents\skills | Out-Null
-Copy-Item -Recurse -Force .\skills\resume-opportunity-match .\.agents\skills\resume-opportunity-match
-```
+1. On [GitHub](https://github.com/YLXOVO/resume-opportunity-match), select **Code → Download ZIP** and extract it. If you already have a checkout, use that instead.
+2. In your file manager, find the extracted `skills/resume-opportunity-match` folder. Copy that whole folder into the target repository's `.agents/skills` folder. Create `.agents/skills` in the target repository if it does not exist.
+3. Check that the target repository now contains `.agents/skills/resume-opportunity-match/SKILL.md`. The repository's README, tests, and other files are not needed for installation.
+4. Open the target repository in Codex. If the skill does not appear, restart Codex.
 
-Confirm that the target host reads repository-local skills before relying on it. This project has only verified Codex.
+## Update or remove
 
-## Windows directory link
+The installer does not overwrite an existing skill with the same name. Before updating, check whether the installed folder is a junction or symbolic link: if it is, update its source checkout instead of deleting the source. If you cannot tell, ask Codex to inspect that folder before removing anything. For a regular personal installation, save any changes you made inside the skill, remove only the installed `resume-opportunity-match` folder, and repeat the recommended installation. By default, that folder is under `~/.codex/skills/` (on Windows, `%USERPROFILE%\.codex\skills\`). Do not remove the entire `skills` directory.
 
-After confirming the destination does not already exist, a Windows junction can point the personal directory at the canonical source:
+For a repository-only installation, replace only that repository's `.agents/skills/resume-opportunity-match` folder with a fresh copy. To uninstall, remove only the corresponding skill folder, never the entire `.agents/skills` directory. Neither action requires deleting this source repository.
 
-```powershell
-New-Item -ItemType Junction -Path "$env:USERPROFILE\.codex\skills\resume-opportunity-match" -Target (Resolve-Path .\skills\resume-opportunity-match)
-```
-
-The junction avoids copy drift. If local policy blocks links, use a copied installation and repeat the update step after source changes.
-
-## Update and verify
-
-For a copied installation, replace it after updating this repository:
-
-```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\resume-opportunity-match"
-Copy-Item -Recurse -Force .\skills\resume-opportunity-match "$env:USERPROFILE\.codex\skills\resume-opportunity-match"
-```
-
-For a junction, update the canonical source and verify the link target; do not copy over the junction. Validate the source or installed copy with:
-
-```powershell
-python scripts/validate_skill.py skills/resume-opportunity-match
-python "$env:USERPROFILE\.codex\skills\.system\skill-creator\scripts\quick_validate.py" skills/resume-opportunity-match
-```
-
-The second command applies only in a Codex environment with the system `skill-creator` validator installed.
-
-Use the synthetic examples in [`../examples/`](../examples/) for a safe explicit-invocation check.
-
-## Uninstall
-
-Check the exact target before removing a personal copy or junction:
-
-```powershell
-Get-Item "$env:USERPROFILE\.codex\skills\resume-opportunity-match"
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\resume-opportunity-match"
-```
-
-For a repository-local installation, remove only that repository's `.agents\skills\resume-opportunity-match`. Uninstalling a copy does not delete this repository's canonical source.
+Maintainers can find command-line validation steps in [Testing](TESTING.md).
